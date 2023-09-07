@@ -3,7 +3,7 @@ import time
 from snake_class import SNAKE
 from screen_class import snake_screen
 from food_class import food
-import math
+import os.path
 
 def creat_score_board():
     
@@ -59,13 +59,23 @@ def is_duplicate(anylist):
         return True
     else:
         return False
+    
+# def makehighscorefile():
+#     file = open("high_score.txt","w")
+#     file.write("0")
 
 def get_high_score():
-    with open('high_score.txt', 'r') as reader:
+    if os.path.isfile("high_score.txt") != True:
+        file = open('high_score.txt', 'w')
+        file.write("0")
+        high_score = 0
+        file.close
+    else:
+        file = open('high_score.txt', 'r')
         # Read & print the entire file
-        high_score = reader.read()
-        # high_score = str(reader.read())
-        return high_score
+        high_score = file.read()   
+        file.close()
+    return int(high_score)
 
 screen = snake_screen()
 snake = SNAKE()
@@ -77,6 +87,7 @@ snake_food = food()
 getting last high score
 '''
 high_score = get_high_score()
+last_high_score = high_score
 
 
 '''
@@ -134,8 +145,9 @@ while end_of_game != True:
     
     time.sleep(0.1)
 
-if high_score > int(get_high_score()):
-    f = open("high_score.txt", "w")
+# int(get_high_score())
+if high_score > last_high_score:
+    f = open("high_score.txt", "w+")
     f.write(str(high_score))
     f.close()
     
